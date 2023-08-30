@@ -111,12 +111,13 @@ const PropertyTable = ({ data }) => {
           </tbody>
         </table>
       </div>
-      <div className="pagination">
+      <div className="flex justify-end mt-4">
         {Array.from({ length: pageCount }, (_, index) => (
           <button
             key={index}
             onClick={() => handlePageChange(index)}
-            className={index === currentPage ? 'active' : ''}
+            className={'border-2 border-slate-300 px-3 text-sky-500 mr-2'}
+            style={{fontWeight: index === currentPage ? 'bolder' : ''}}
           >
             {index + 1}
           </button>

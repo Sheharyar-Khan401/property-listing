@@ -66,4 +66,5 @@ This app is built using several packages to enhance its functionality and develo
 - `web-vitals`: Tools to measure the performance of your app using web vital metrics.
 - `tailwindcss`: A utility-first CSS framework for building responsive and customizable UI components.
 
-  
+## Background
+This app was developed during the difficult hours of my previous job, where I also had to manage demos and other responsibilities. Due to the limited time available (approximately 7 to 8 hours), the primary focus was on implementing core features and demonstrating proficiency in React development. Please review the code and take my efforts into consideration

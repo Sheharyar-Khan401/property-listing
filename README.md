@@ -1,7 +1,3 @@
-Certainly! Here's a basic README file to help you start a React app using the provided `package.json` and to introduce the packages used in your app:
-
----
-
 # Property Listing App
 
 Welcome to the Property Listing App! This React application allows you to list and browse various properties with detailed information. It's a simple and intuitive way to manage property listings.

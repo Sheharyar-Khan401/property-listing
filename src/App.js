@@ -5,13 +5,9 @@ import { Provider as propertyContextProvider } from "./context/propertyContext";
 
 function App() {
   return (
-    <React.Fragment>
       <div className="main-container">
-      <propertyContextProvider>
-        <AppRouter />
-        </propertyContextProvider>
+          <AppRouter />
       </div>
-    </React.Fragment>
   );
 }
 

@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
+import { FaSort } from 'react-icons/fa'
 
 const PropertyTable = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [sortKey, setSortKey] = useState(''); // Track the current sorting key
-  const [sortAscending, setSortAscending] = useState(true); // Track sorting order
-  const itemsPerPage = 10; // Adjust as needed
+  const [sortKey, setSortKey] = useState('');
+  const [sortAscending, setSortAscending] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('')
+  // const [filteredData, setFilteredData] = useState([])
+
+  
+  const navigate = useNavigate()
+  const itemsPerPage = 30;
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -31,38 +38,79 @@ const PropertyTable = ({ data }) => {
 
   const pageCount = Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = currentPage * itemsPerPage;
-  const displayedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+  // const displayedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+
+  const filteredData = sortedData.filter((property) =>
+    property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    property.address.toLowerCase().includes(searchQuery.toLowerCase())
+  ).slice(startIndex, startIndex + itemsPerPage);;
+
+  console.log('filteredData', filteredData)
+  
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(0);
+  };
+
 
   return (
     <div>
-      <table className="hover:table-auto">
-        <thead>
-          <tr>
-            <th onClick={() => handleSort('title')}>Title</th>
-            <th onClick={() => handleSort('address')}>Address</th>
-            <th onClick={() => handleSort('beds')}>Beds</th>
-            <th onClick={() => handleSort('bath')}>Bath</th>
-            <th onClick={() => handleSort('coveredAreaSQFT')}>Covered Area (sqft)</th>
-            <th onClick={() => handleSort('propertyType')}>Property Type</th>
-            <th onClick={() => handleSort('isCommercial')}>Is Commercial</th>
-            <th onClick={() => handleSort('price')}>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {displayedData.map((property, index) => (
-            <tr className="hover:bg-sky-100" key={index}>
-              <td>{property.title}</td>
-              <td>{property.address}</td>
-              <td>{property.beds}</td>
-              <td>{property.bath}</td>
-              <td>{property.coveredAreaSQFT}</td>
-              <td>{property.propertyType}</td>
-              <td>{property.isCommercial ? 'Yes' : 'No'}</td>
-              <td>{property.price}</td>
+      <div>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearch}
+          className="border rounded-lg px-2 py-1 mb-4 active:border-neutral-100 focus:border-neutral-100"
+          placeholder="Search by title or address"
+        />
+      </div>
+      <div className='rounded-lg border-x' style={{
+        height: '35rem',
+        overflowY: 'scroll'
+      }}>
+        <table className="table-fixed shadow-lg bg-white">
+          <thead>
+            <tr>
+              <th className='bg-blue-100 text-left px-4 py-4 w-48' onClick={() => handleSort('title')}>
+                <div className='flex items-center justify-around'>
+                  Title <FaSort />
+                </div>
+              </th>
+              <th className='bg-blue-100 text-left px-8 py-4' onClick={() => handleSort('address')}>
+                <div className='flex items-center justify-around'>
+                  Address <FaSort />
+                </div>
+              </th>
+              <th className='bg-blue-100 text-center px-8 py-4' onClick={() => handleSort('coveredAreaSQFT')}>
+                <div className='flex items-center justify-around'>
+                  Covered Area <FaSort />
+                </div>
+              </th>
+              <th className='bg-blue-100 text-center px-8 py-4' onClick={() => handleSort('propertyType')}>
+                <div className='flex items-center justify-around'>
+                  Property Type <FaSort />
+                </div>
+              </th>
+              <th className='bg-blue-100 text-center px-8 py-4' onClick={() => handleSort('price')}>
+                <div className='flex items-center justify-around'>
+                  Price <FaSort />
+                </div>
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredData.map((property, index) => (
+              <tr className="hover:bg-sky-100 border-b" key={index} onClick={() => { navigate('/details', { state: property }) }}>
+                <td className='p-2 py-4'>{property.title}</td>
+                <td className='p-2 py-4'>{property.address}</td>
+                <td className='text-center p-2 py-4'>{property.coveredAreaSQFT}</td>
+                <td className='text-center p-2 py-4'>{property.propertyType}</td>
+                <td className='text-center p-2 py-4'>{property.price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="pagination">
         {Array.from({ length: pageCount }, (_, index) => (
           <button

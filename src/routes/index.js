@@ -1,22 +1,14 @@
-import { BrowserRouter, Router, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Router, Redirect, Routes, Route, Switch } from "react-router-dom";
 import LandingPage from "../pages/landingPage";
+import DetailPage from "../pages/detailPage";
 
 
 export const AppRouter = (props) => {
-    
-    const myRoutes = (
-        <Switch>
-            <Route exact path={'/'}>
-                <LandingPage />
-            </Route>
-        </Switch>
-    )
 
     return (
-        <div>
-            <BrowserRouter>
-                {myRoutes}
-            </BrowserRouter>
-        </div>
+        <Routes>
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/details' element={<DetailPage />} />
+        </Routes>
     )
 }
